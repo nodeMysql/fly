@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			text-decoration: none;
+		}
+		.wrap{
+			width: 500px;
+			height: auto;
+			margin: 60px auto;
+			background: yellow
+		}
+		li{
+			display: block;
+			width: 20px;
+			height: 20px;
+			text-align: center;
+			line-height: 20px;
+			border: 1px solid;
+			float: left;
+			margin-right: 10px;
+		}
+		main{
+			width: 100px;
+			height: 100px;
+			
+		}
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<main></main>
+	
+	<ul>
+		
+	</ul>
+</div>
+	<script>
+		
+		
+		
+		$(function(){
+			$.ajax({
+				url:'http://localhost:3000',
+				type:'POST',
+				dataType:'json',
+				success:function(e){
+					var c=Math.ceil(e[0]['COUNT(*)']/2)
+						console.log(c)
+					var str=''
+					for(var i=0;i<c;i++){
+						str+="<li>"+(i+1)+"</li>"
+					}
+					$('ul').html(str)
+					
+					$('li').click(function(){
+						var a=$('li').index(this)
+						console.log(a)
+						
+						$.ajax({
+							url:'http://localhost:3000/list',
+							type:'POST',
+							dataType:'json',
+							data:{
+								num:a	
+							},
+							success:function(e){
+								console.log(e)
+								var data="";
+								for(var i in e){
+									data+="<div>"+e[i].name+"</div>"
+								}
+								$('main').html(data)
+							}
+						})
+					})
+					
+			
+		}
+				 
+				
+				
+			
+			})
+			
+				
+		})
+
+		
+	</script>
+</body>
+</html>
